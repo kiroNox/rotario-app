@@ -91,7 +91,7 @@ export default LoginScreen = () => {
                     span={((passwordError && password != "") ? passwordError : "")}
                     label="Contraseña"
                     placeholder="Escribe tu contraseña"
-                    secureTextEntry
+                    
                     input={{value: password, onChangeText: setPassword, secureTextEntry: true}}
                     />
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('ResetPass')}>
