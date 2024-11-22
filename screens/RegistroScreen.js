@@ -6,22 +6,48 @@ import RadioButton from '../components/RadioRegistro';
 import useCustomValidation from '../hooks/useCustomValidation'; // Hook personalizado
 
 const RegistroScreen = () => {
-  // Reglas de validación para los campos
   const validationRules = {
-    cedula: (value) => (!value ? 'La cédula es requerida' : ''),
-    nombre: (value) => (!value ? 'El nombre es requerido' : ''),
-    apellido: (value) => (!value ? 'El apellido es requerido' : ''),
+    cedula: (value) =>
+      !value
+        ? 'La cédula es requerida'
+        : !/^(V|E)-\d{5,15}$/.test(value)
+        ? 'La cédula debe tener el formato V-12345678 o E-12345678'
+        : '',
+  
+    nombre: (value) =>
+      !value
+        ? 'El nombre es requerido'
+        : !/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]{2,50}$/.test(value)
+        ? 'El nombre solo puede contener letras y espacios'
+        : '',
+  
+    apellido: (value) =>
+      !value
+        ? 'El apellido es requerido'
+        : !/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]{2,50}$/.test(value)
+        ? 'El apellido solo puede contener letras y espacios'
+        : '',
+  
     telefono: (value) =>
-      value.length < 10 ? 'El teléfono debe tener al menos 10 dígitos' : '',
+      !value
+        ? 'El teléfono es requerido'
+        : !/^\d{10,15}$/.test(value)
+        ? 'El teléfono debe contener entre 10 y 15 dígitos'
+        : '',
+  
     correo: (value) =>
       !value
         ? 'El correo es requerido'
         : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? 'El correo no es válido'
         : '',
+  
     fechaIngreso: (value) =>
       !value ? 'La fecha de ingreso es requerida' : '',
+  
+    
   };
+  
 
   // Hook de validación
   const { values, errors, handleChange, validateAll } = useCustomValidation(
