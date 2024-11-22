@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import ResetPassScreen from './screens/ResetPassScreen';
+import RegistroScreen from './screens/RegistroScreen';
 import PerfilScreen from './screens/PerfilScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -29,6 +30,7 @@ function App() {
             <Stack.Screen name="Home" component={HomeScreen}  />
             <Stack.Screen name="Perfil" component={PerfilScreen} />
             <Stack.Screen name="ResetPass" component={ResetPassScreen} />
+            <Stack.Screen name="Registro" component={RegistroScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

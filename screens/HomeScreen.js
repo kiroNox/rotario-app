@@ -19,6 +19,7 @@ const LoginScreen = () => {
             </View>
             <View style={{flexGrow: 1,justifyContent: 'space-around'}}>
                 <Button title="Ir a Perfil" onPress={() => navigation.navigate('Perfil')} />
+                <Button title='Ir a Registro' onPress={() => navigation.navigate('Registro')} />
                 <Button title="Log out" onPress={closeSession } />
             </View>
         </View>

@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Input } from 'react-native-elements';
+
 
 const RadioButton = ({ label, selectedValue, onValueChange, options, error, style }) => {
   return (
@@ -9,7 +11,7 @@ const RadioButton = ({ label, selectedValue, onValueChange, options, error, styl
         {options.map((option, index) => (
           <View key={index} style={styles.radioItem}>
             <Text>{option.label}</Text>
-            <input
+            <Input
               type="radio"
               value={option.value}
               checked={selectedValue === option.value}

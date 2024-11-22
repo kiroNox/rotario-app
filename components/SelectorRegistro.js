@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Picker, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const SelectField = ({ label, selectedValue, onValueChange, options, error, style }) => {
   return (
