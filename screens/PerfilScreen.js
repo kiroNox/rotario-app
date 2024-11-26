@@ -1,10 +1,14 @@
-import {text, View, StyleSheet, Button, Image, Text, TextInput, Alert, InputAccessoryView} from 'react-native';
+import {text, View, StyleSheet, Image, Text, TouchableWithoutFeedback, SafeAreaView} from 'react-native';
 import { setItem, getItem } from '../utils/storage';
 import { useState, useEffect } from 'react';
 import {Row,Col} from '../components/filas';
 import axios from 'axios';
 import { baseUrl } from '../assets/js/config';
 import { useNavigation} from '@react-navigation/native';
+import ButtonFooter from '../components/ButtonFooter';
+
+import { falseperfilresponse } from '../services/falsedata';
+import { Title } from 'react-native-paper';
 
 
 
@@ -30,8 +34,14 @@ export default function PerfilScreen() {
                 }
 
                 let url = baseUrl+"?p=trabajadores_user&APP-REQUEST=1";
-                
-                resp =await axios.post(url, data);
+
+                const server = await getItem('SERVER',false);
+                if(!server){// si no esta en el server del sistema 
+                    resp = falseperfilresponse(await getItem('user'));
+                }
+                else{// si estubiera en el server del sistema
+                    resp = await axios.post(url, data);
+                }
                 if(resp.data){
                     if(resp.data.resultado == "get_user"){
                         console.log("1");
@@ -68,61 +78,139 @@ export default function PerfilScreen() {
     }, [usuario,setUsuario,errorUsuario,setErrorUsuario]);
 
     return (
-        <View style={{padding: 10}}>
+        
+        <SafeAreaView style={{flex: 1}}>
 
             {
             errorUsuario?(
-                <View style={{alignItems: 'center',flexBasis: '100%',justifyContent: 'center'}}>
+                <View style={{alignItems: 'center',flexGrow: 1,justifyContent: 'center'}}>
                     <View>
                         <Text style={{fontSize: 30,textAlign:"center" , color:"red"}}>{errorUsuario}</Text>
                     </View>
                 </View>
             ):(usuario)?(
-                <View style={{flexBasis: '100%'}}>
-                    <View style={{alignItems: 'center'}}>
-                        <Image source={require('../assets/perfil.png')} style={{width: 200, height: 200, objectFit: 'contain'}}/>
+
+                <View style={styles.container}>
+                    <View style={styles.body}>
+                        <View style={styles.avatarContainer}>
+                            <Image source={require('../assets/perfil.png')} style={{width: 140, height: 140, objectFit: 'contain'}}/>
+                        </View>
+                        <View style={styles.nameContainer}>
+                            <Text style={styles.name}>{usuario.nombre+" "+usuario.apellido}</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoLabel}>Cedula:</Text>
+                            <Text style={styles.infoText}>{usuario.cedula}</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoLabel}>Genero:</Text>
+                            <Text style={styles.infoText}>{usuario.genero}</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoLabel}>Telefono:</Text>
+                            <Text style={styles.infoText}>{usuario.telefono}</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoLabel}>Email:</Text>
+                            <Text style={styles.infoText}>{usuario.correo}</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoLabel}>Fecha de Contratación:</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoText}>{usuario.creado}</Text>
+                        </View>
                     </View>
-                    <MyRow label="Cedula" value={usuario.cedula}/>
-                    <MyRow label="Nombre" value={usuario.nombre+" "+usuario.apellido}/>
-                    <MyRow label="Correo" value={usuario.correo}/>
-                    <MyRow label="Telefono" value={usuario.telefono}/>
-                    <MyRow label="Genero" value={usuario.genero}/>
-                    <MyRow label="fecha de contratacion" value={usuario.creado}/>
-                    
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('ResetPass',{title:"Cambiar Contraseña"})}>
+                        <View>
+                            <Text style={styles.link}>Cambiar Contraseña</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
+                
             ):(
-                <View style={{alignItems: 'center',flexBasis: '100%',justifyContent: 'center'}}>
+                <View style={{alignItems: 'center',flexGrow: 1,justifyContent: 'center'}}>
                     <View>
                         <Text style={{fontSize: 30}}>Cargando...</Text>
                     </View>
                 </View>
             )}
-        </View>
+            <View>
+                <ButtonFooter activado="Perfil"/>
+            </View>
+        </SafeAreaView>
     );
 }
 
-function MyRow({label,value}){
-    return (
-        <Row style={{width:"90%"}}>
-            <Col style={{borderWidth: 1,alignItems:"center",justifyContent:"center"}}>
-                <Text style={styles.textRight}>{label}</Text>
-            </Col>
-            <Col style={{borderWidth: 1,borderLeftWidth: 0,}}>
-                <Text style={styles.textLeft}>{value}</Text>
-            </Col>
-        </Row>
-    )
-}
+// function MyRow({label,value}){
+//     return (
+//         <Row style={{width:"90%"}}>
+//             <Col style={{borderWidth: 1,alignItems:"center",justifyContent:"center"}}>
+//                 <Text style={styles.textRight}>{label}</Text>
+//             </Col>
+//             <Col style={{borderWidth: 1,borderLeftWidth: 0,}}>
+//                 <Text style={styles.textLeft}>{value}</Text>
+//             </Col>
+//         </Row>
+//     )
+// }
 
 const styles = StyleSheet.create({
-    textCenter: {
-      textAlign:"center"
+    container: {
+        flexGrow:1,
+      backgroundColor: '#ECF0F3',
     },
-    textLeft:{
-        textAlign:"left"
+    body: {
+      marginTop:120,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    textRight:{
-        textAlign:"right"
+    avatarContainer: {
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      backgroundColor: '#FFFFFF',
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000000',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowRadius: 6,
+      shadowOpacity: 0.16,
+    },
+    avatar: {
+      fontSize: 72,
+      fontWeight: '700',
+    },
+    nameContainer: {
+      marginTop: 24,
+      alignItems: 'center',
+    },
+    name: {
+      fontSize: 24,
+      fontWeight: '600',
+    },
+    infoContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 12,
+    },
+    infoLabel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: '#666666',
+      marginRight: 8,
+    },
+    infoText: {
+      fontSize: 16,
+    },
+    link: {
+        color: "blue",
+        textAlign: "center",
+        textDecorationLine: "underline",
+        marginVertical: 10
     }
-
   });
+  

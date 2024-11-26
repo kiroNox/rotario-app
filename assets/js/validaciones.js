@@ -54,3 +54,19 @@ export function useValidateEmail(email) {
     return passwordError;
   }
 
+export function useValidateCodigo(Codigo){
+    const [CodigoError, setCodigoError] = useState(false);
+    useEffect(() => {
+        setCodigoError(false);
+      if (!Codigo) {
+        setCodigoError("El Codigo es requerido");
+      } else if (Codigo.length < 4) {
+        setCodigoError("El Codigo debe tener al menos 4 dígitos");
+      }else if (!/^[0-9]+$/.test(Codigo)) {
+        setCodigoError("El codigo debe contener solo dígitos");
+      }
+      
+    }, [Codigo]);
+    return CodigoError;
+}
+

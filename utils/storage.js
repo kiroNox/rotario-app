@@ -11,11 +11,11 @@ export const setItem = async (key, value) => {
   return value;
 };
 
-export const getItem = async (key) => {
+export const getItem = async (key, defaultValue=null) => {
   try {
     const value = await AsyncStorage.getItem(key);
     console.log(value,"value");
-    return value != null ? JSON.parse(value) : null;
+    return value != null ? JSON.parse(value) : defaultValue ? defaultValue : null;
   } catch (error) {
     console.error('Error getting item:', error);
     return null;

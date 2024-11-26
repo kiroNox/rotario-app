@@ -4,6 +4,7 @@ import InputField from '../components/InputRegistro';
 import SelectField from '../components/SelectorRegistro';
 import RadioButton from '../components/RadioRegistro';
 import useCustomValidation from '../hooks/useCustomValidation'; // Hook personalizado
+import ButtonFooter from '../components/ButtonFooter';
 
 const RegistroScreen = () => {
   const validationRules = {
@@ -76,7 +77,8 @@ const RegistroScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
 
-      <ScrollView >
+      <ScrollView>
+        <View style={{paddingBottom: 20}}>
         <InputField
           label="Cédula"
           value={values.cedula}
@@ -162,8 +164,12 @@ const RegistroScreen = () => {
         />
         */}
         <Button title="Enviar" onPress={handleSubmit} />
+        </View>
       </ScrollView>
-    
+
+      <View>
+        <ButtonFooter activado="Registro"/>
+      </View>
     </SafeAreaView>
   );
 };
@@ -171,7 +177,8 @@ const RegistroScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal:20,
+    paddingTop:20
   },
   inputField: {
     alignSelf: 'center', // Centra el campo en el contenedor

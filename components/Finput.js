@@ -12,12 +12,14 @@ export default function Finput(pr) {
       placeholder: props.placeholder,
       ...pr.input
     }
+    let inputstyle = {...inputProps.style};
+    delete inputProps.style;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>
         {props.label}
       </Text>
-      <TextInput {...inputProps} style={styles.input}/>
+      <TextInput {...inputProps} style={[styles.input, inputstyle]}/>
       <Text style={[styles.span, props.span === "" ?  styles.spanHidden : {}]}>
         {props.span}
       </Text>

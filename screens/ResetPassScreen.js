@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Button, Alert} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Finput from '../components/Finput';
 import { useState } from 'react';
 import { useValidatePassword} from '../assets/js/validaciones';
@@ -11,6 +11,7 @@ export default ResetPassScreen = () => {
 	const [confirmEmail, setconfirmEmail] = useState('');
 	const confirmemailError = useValidatePassword(confirmEmail); // solo cambiare los hooks
 	const [sending, setSending] = useState(false);
+	const route = useRoute();
 
 	const handleLogin = async () => {
 		return new Promise(async (resolve, reject) => {
@@ -21,10 +22,6 @@ export default ResetPassScreen = () => {
 				setSending(true);
 			}
 			
-			if(email=="" || confirmEmail==""){
-				reject("campos vacios");
-				return;
-			}
 
 			if(emailError || confirmemailError){
                 reject((emailError ? emailError : confirmemailError));
@@ -36,7 +33,18 @@ export default ResetPassScreen = () => {
 				return;
 			}
 
-			Alert.alert("","la contraseña fue cambiada con exito (Na mentira XD)",[{text: "OK", onPress: () => {navigation.goBack(); resolve();}}]);
+			Alert.alert("","la contraseña fue cambiada con exito (Na mentira XD)",[{text: "OK", onPress: () => {
+				console.log(route);
+				if(route.params.title == "Reestablecer Contraseña"){
+					navigation.reset({index: 0, routes: [{name: 'Login'}]})
+
+
+				}
+				else if (route.params.title == "Cambiar Contraseña"){
+					navigation.goBack(); 
+				}
+				resolve();
+			}}]);
 
 			
 		}).catch((err) => Alert.alert("Error de campos",err)).finally(() => setSending(false));

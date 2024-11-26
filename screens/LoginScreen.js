@@ -8,6 +8,7 @@ import { baseUrl } from '../assets/js/config';
 import  Loading from '../components/loading';
 
 import axios from 'axios';
+import { falseloginresponse } from '../services/falsedata';
 
 export default LoginScreen = () => {
     const navigation = useNavigation();
@@ -19,7 +20,8 @@ export default LoginScreen = () => {
 
     const handleLogin = async () => {
         await clear();
-        console.log(await getItem('user'));
+
+        setItem("SERVER", false);
 
         return new Promise(async (resolve, reject) => {
 
@@ -52,17 +54,25 @@ export default LoginScreen = () => {
 
             
             try {
-                const response = await axios.post(url, data,{
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+                const server = await getItem("SERVER",false);
+                // si estubiera en el servidor del sistema la manda la solicitud con axios
+                if(server){
+                    var response = await axios.post(url, data,{
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                }
+                else{ // si no hara una simulacion con falsedata
+                    var response = await falseloginresponse(email, password);
+                }
+                
 
             
                 if(response.data.resultado && response.data.resultado == "singing"){
-                    let none = await setItem('user', response.headers['user']);
-                    console.log(getItem('user'),"get user");
-                    console.log(response,"response");
+                    await setItem('user', response.headers['user']);
+                    let temp = await getItem('user');
+                    console.log(temp);
                     navigation.reset({index: 0, routes: [{ name: 'Home' }]});
                 }
                 else{
@@ -94,7 +104,7 @@ export default LoginScreen = () => {
                     
                     input={{value: password, onChangeText: setPassword, secureTextEntry: true}}
                     />
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('ResetPass')}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('CorreoForReset')}>
                         <View>
                             <Text style={styles.link}>Recuperar contraseña</Text>
                         </View>
