@@ -180,10 +180,6 @@ const styles = StyleSheet.create({
       shadowRadius: 6,
       shadowOpacity: 0.16,
     },
-    avatar: {
-      fontSize: 72,
-      fontWeight: '700',
-    },
     nameContainer: {
       marginTop: 24,
       alignItems: 'center',
