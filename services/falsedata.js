@@ -24,23 +24,25 @@ const users = [
 ];
 
 const falseloginresponse = (email, password) => {
+  var resp={};
     const user = users.find(user => user.correo === email && user.password === password);
     if (user) {
-        var resp = {data: {resultado: "singing"}, headers:{"user": user.id}}
+        resp = {data: {resultado: "singing"}, headers:{"user": user.id}}
     }
     else {
-        var resp = {data: {resultado: "Error", mensaje: "Credenciales incorrectas"}};
+        resp = {data: {resultado: "Error", mensaje: "Credenciales incorrectas"}};
     }
     return resp;
 }
 
 const falseperfilresponse = (id) => {
+  var resp={};
     const user = users.find(user => user.id === id);
     if (user) {
-        var resp = {data: {resultado: "get_user", mensaje: user}};
+        resp = {data: {resultado: "get_user", mensaje: user}};
     }
     else {
-        var resp = {data: {resultado: "Error", mensaje: "Credenciales incorrectas"}};
+        resp = {data: {resultado: "Error", mensaje: "Credenciales incorrectas"}};
     }
     return resp;
 }

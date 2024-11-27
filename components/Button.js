@@ -29,15 +29,7 @@ export default function Button_template(argumnents) {
 
    
     
-  return (
-    <View style={[defaultstyles.container, containerStyles]}>
-        <View style={[defaultstyles.Button, buttonStyles]} {...props.btn}>
-            <Text style={[defaultstyles.text,stylesText]}>
-                {props.value}
-            </Text>
-        </View>
-    </View>
-  );
+  
 }
 
 const defaultstyles = StyleSheet.create({
@@ -45,17 +37,6 @@ const defaultstyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-  }
-  ,Button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    elevation: 3,
-    backgroundColor: '#4e73df',
-    borderRadius: 10,
-  },
-  text: {
-    color: 'white',
   }
 });
 

@@ -55,16 +55,17 @@ export default LoginScreen = () => {
             
             try {
                 const server = await getItem("SERVER",false);
+                 var response ="";
                 // si estubiera en el servidor del sistema la manda la solicitud con axios
                 if(server){
-                    var response = await axios.post(url, data,{
+                    response = await axios.post(url, data,{
                         headers: {
                             'Content-Type': 'application/json'
                         }
                     });
                 }
                 else{ // si no hara una simulacion con falsedata
-                    var response = await falseloginresponse(email, password);
+                    response = await falseloginresponse(email, password);
                 }
                 
 

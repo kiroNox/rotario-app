@@ -40,13 +40,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 18
   },
-  paragraph: {
-    margin: 24,
-    marginTop: 0,
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   input: {
     flexBasis: 40,
     width: '100%',
